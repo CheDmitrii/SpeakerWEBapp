@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>search</title>
+</head>
+<body>
+
+
+<form th:method="DELETE" th:action="@{/speaker/login}">
+  <input type="submit" value="logout"/>
+</form>
+
+
+<!--<a href="login">log OUT</a>-->
+<form th:method="GET" th:action="@{/menu}">
+  <input type="submit" value="back"/>
+</form>
+
+
+
+
+
+
+<form method="post" action="search">
+  <br>
+  <label for="singer">Singer</label>
+  <input name="singer" type="text" id="singer"/>
+
+  <br>
+
+  <label for="song">Song &nbsp</label>
+  <input name="song" type="text" id="song"/>
+
+  <br>
+
+  <p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="submit" value="search"/></p>
+</form>
+
+</body>
+</html>

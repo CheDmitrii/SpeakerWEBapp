@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main_menu</title>
+</head>
+<body>
+
+<div>
+  <form th:method="DELETE" th:action="@{/speaker/login}" style="display: inline-block">
+    <input type="submit" value="logout"/>
+  </form>
+  &nbsp &nbsp
+  <form th:method="GET" th:action="@{/speaker/login}" style="display: inline-block">
+    <input type="submit" value="back"/>
+  </form>
+  <form style="display: inline-block;">
+    <td style="display: flex; justify-content: flex-end" th:text="${user}"></td>
+  </form>
+</div>
+
+
+&nbsp
+
+<div>
+  <form th:method="GET" th:action="@{/menu/search}" style="display: inline-block">
+    <input type="submit" value="search" style="height: 40px; width: 250px; left: 20px; font-size: 25px"/>
+  </form>
+  &nbsp &nbsp
+  <form th:method="GET" th:action="@{/menu/library}" style="display: inline-block">
+    <input type="submit" value="library" style="height: 40px; width: 250px; left: 130px; font-size: 25px"/>
+  </form>
+</div>
+
+
+</body>
+</html>

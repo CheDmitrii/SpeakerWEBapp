@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login_page</title>
+  <style>
+    .posLog {
+      position: fixed;
+      top: 150px;
+      left: 100px;
+    }
+  </style>
+</head>
+<body>
+
+
+<p th:if="${loginError}"> Wrong login or password</p>
+<p th:if="not${loginError}">Enter login and password</p>
+
+
+<form th:method="post" th:action="@{/speaker/login}">
+  <div>
+    <label for="login" style="font-size: 20px">login &nbsp &nbsp &nbsp </label>
+      <input name="login" type="text" id="login" style="height: 15px"/>
+
+      <br>
+
+      <label for="password" style="font-size: 20px">password</label>
+      <input name="password" type="text" id="password" style="height: 15px"/>
+
+      <br>
+
+      <input type="submit" class="posLog" value="login" style="width: 60px;"/>
+  </div>
+</form>
+
+
+
+
+</body>
+</html>
