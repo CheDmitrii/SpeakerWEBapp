@@ -1,36 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Main_menu</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="../../../resources/css/buttons.css" type="text/css">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
+
+<nav>
+    <div th:insert="~{fragments/header :: header}"></div>
+</nav>
+
+
 <div>
-  <form th:method="DELETE" th:action="@{/speaker/login}" style="display: inline-block">
-    <input type="submit" value="logout"/>
-  </form>
-  &nbsp &nbsp
-  <form th:method="GET" th:action="@{/speaker/login}" style="display: inline-block">
-    <input type="submit" value="back"/>
-  </form>
-  <form style="display: inline-block;">
-    <td style="display: flex; justify-content: flex-end" th:text="${user}"></td>
-  </form>
+    <a>This is primary menu of <h1>SpeakerWEB</h1>.</a>
+
+    <a><h2>Tutorial of navbar menu:</h2></a>
+    <br>
+    <div>
+        <div style="display: inline-block">
+            <a><h4>1. SpeakerWEB button</h4></a>
+            <br>
+            <a th:text="#{menu.button.speakerweb.text}">anotation</a>
+        </div>
+
+        <div style="display: inline-block">
+            <a><h4>2. MAIN MENU</h4></a>
+            <br>
+            <a>This return you on current page.</a>
+        </div>
+
+        <div style="display: inline-block">
+            <a><h4>3. SEARCH</h4></a>
+            <br>
+            <a>This button </a>
+        </div>
+
+        <div style="display: inline-block">
+            <a><h4>4. LIBRARY</h4></a>
+            <br>
+            <a>This button </a>
+        </div>
+
+        <div style="display: inline-block">
+            <a><h4>5. ARTISTS</h4></a>
+            <br>
+            <a>This button </a>
+        </div>
+
+        <div style="display: inline-block">
+            <a><h4>6. ALBUMS</h4></a>
+            <br>
+            <a>This button </a>
+        </div>
+    </div>
 </div>
 
 
-&nbsp
 
-<div>
-  <form th:method="GET" th:action="@{/menu/search}" style="display: inline-block">
-    <input type="submit" value="search" style="height: 40px; width: 250px; left: 20px; font-size: 25px"/>
-  </form>
-  &nbsp &nbsp
-  <form th:method="GET" th:action="@{/menu/library}" style="display: inline-block">
-    <input type="submit" value="library" style="height: 40px; width: 250px; left: 130px; font-size: 25px"/>
-  </form>
-</div>
+
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
+
+
+
+<!--<div>-->
+<!--  <form th:method="DELETE" th:action="@{/speaker/login}" style="display: inline-block">-->
+<!--    <input type="submit" value="logout"/>-->
+<!--  </form>-->
+<!--  &nbsp &nbsp-->
+<!--  <form th:method="GET" th:action="@{/speaker/login}" style="display: inline-block">-->
+<!--    <input type="submit" value="back"/>-->
+<!--  </form>-->
+<!--  <form style="display: inline-block;">-->
+<!--    <td style="display: flex; justify-content: flex-end" th:text="${user}"></td>-->
+<!--  </form>-->
+<!--</div>-->
+
+
+<!--&nbsp-->
+
+<!--<div>-->
+<!--  <form th:method="GET" th:action="@{/menu/search}" style="display: inline-block">-->
+<!--    <input type="submit" value="search" style="height: 40px; width: 250px; left: 20px; font-size: 25px"/>-->
+<!--  </form>-->
+<!--  &nbsp &nbsp-->
+<!--  <form th:method="GET" th:action="@{/menu/library}" style="display: inline-block">-->
+<!--    <input type="submit" value="library" style="height: 40px; width: 250px; left: 130px; font-size: 25px"/>-->
+<!--  </form>-->
+<!--</div>-->
+
 
 
 </body>

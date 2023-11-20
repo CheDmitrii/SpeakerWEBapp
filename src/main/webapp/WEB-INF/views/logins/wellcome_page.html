@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wellcome Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<!--<body th:background="~{/fragments/background.html}">-->
+
+<div th:insert="~{/fragments/header :: header}"></div>
+
+
+<div>
+    <div th:include="~{/fragments/background :: backgroung}">
+    </div>
+    <div style="width: 10px; height: 0px;position: absolute">
+        <a style="top: -600px; left: 200px; position: absolute; color: red">
+            <pre>
+                JNJJKNV
+                fkmNVFNJVFv
+                vFV
+                FVFVOVfvoMVFIVMFVF
+                vfV
+                FVFVFIVMFKVF
+                VFvFIMVKFVF
+            </pre>
+        </a>
+    </div>
+</div>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

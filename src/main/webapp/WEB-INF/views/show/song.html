@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Song</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+<div class="avatar" style="display: flex; justify-content: center">
+    <div class="mask mask-squircle w-96 h-96">
+        <img th:src="@{/source/foto/{id}(id=${song.getIdAlbum()})}" alt="Avatar Tailwind CSS Component"/>
+    </div>
+</div>
+
+<div>
+    <div class="font-bolt" style="font-size: 22px; display: flex; justify-content: center" >
+        <a th:href="@{/show/song/{id}(id=${song.getId()})}" th:text="${song.getName()}"></a>
+    </div>
+</div>
+
+<br>
+
+<div th:each="artist : ${song.getArtists()}" style="display: inline-block">
+    <div class="font-bolt" style="font-size: 20px; display: flex; justify-content: center">
+        <a class="link link-hover" th:text="${artist.getPseudonym()}" th:href="@{/show/artist/{id}(id=${artist.getId()})}"></a>
+    </div>
+</div>
+
+<br>
+
+<div>
+    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" style="margin: 0 auto; display: block; width: 600px; height: 53px" type="audio/mpeg"></audio>
+</div>
+
+<br>
+
+<div class="collapse bg-base-200" style="width: 750px; margin: 0 auto">
+    <input type="checkbox" class="peer" />
+    <div class="collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+        Text
+    </div>
+    <div class="collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+        <pre th:text="${song.getText()}"></pre>
+    </div>
+</div>
+
+</body>
+</html>

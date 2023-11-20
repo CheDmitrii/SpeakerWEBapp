@@ -1,41 +1,200 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>search</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+  <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+<!--  <style>-->
+<!--    .btn-search-speaker {-->
+<!--      border: 1px solid grey;-->
+<!--      padding: 10px;-->
+<!--      border-radius: 10px;-->
+<!--    }-->
+<!--    .btn-search-speaker:hover {-->
+<!--      background-color: darkred;-->
+<!--      border: 1px solid darkred;-->
+<!--      color: white;-->
+<!--      cursor: pointer-->
+<!--    }-->
+<!--  </style>-->
 </head>
 <body>
 
 
-<form th:method="DELETE" th:action="@{/speaker/login}">
-  <input type="submit" value="logout"/>
-</form>
 
+<div th:insert="~{fragments/header :: header}"></div>
 
-<!--<a href="login">log OUT</a>-->
-<form th:method="GET" th:action="@{/menu}">
-  <input type="submit" value="back"/>
-</form>
-
-
-
-
-
-
-<form method="post" action="search">
+<div>
   <br>
-  <label for="singer">Singer</label>
-  <input name="singer" type="text" id="singer"/>
+  <h1 style="font-size: 18px; margin-left: 30px" th:text="#{search.tutorial}">Enter music name <u>OR</u> artist name to find music</h1>
+</div>
 
-  <br>
+<div class="join" style="margin-top: 20px; margin-left: 10px" th:method="POST" th:action="@{/menu/search}">
+  <div>
+    <label></label>
+    <div>
+      <input id="music" style="border: 1px solid grey" type="text" class="input input-bordered join-item" th:placeholder="#{search.placeholder.music}"/>
+      <input id="singer" style="border: 1px solid grey" type="text" class="input input-bordered join-item" th:placeholder="#{search.placeholder.artist}"/>
+    </div>
+  </div>
 
-  <label for="song">Song &nbsp</label>
-  <input name="song" type="text" id="song"/>
+  <div>
+    <button style="width: 85px" type="submit" class="btn-search join-item btn" th:text="#{search.button.search}">Search</button>
+  </div>
+</div>
 
-  <br>
 
-  <p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="submit" value="search"/></p>
-</form>
+
+<div class="overflow-x-auto">
+  <table class="table table-zebra">
+    <!-- head -->
+    <thead>
+    <tr>
+      <!--            <th>-->
+      <!--                <label>-->
+      <!--                    <input type="checkbox" class="checkbox" />-->
+      <!--                </label>-->
+      <!--            </th>-->
+      <th th:text="#{search.table.name}">Name</th>
+      <th th:text="#{search.table.music}">Music</th>
+      <th th:text="#{search.table.text}">Text</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody th:each="song : ${music}">
+    <tr>
+      <td>
+        <div class="flex item-center space-x-3">
+          <div class="avatar">
+            <div class="rounded-full w-12 h-12">
+              <img th:src="@{/source/foto/{id}(id=${song.getIdAlbum()})}" alt="Avatar of music"/>
+            </div>
+          </div>
+          <div>
+            <div class="font-bold">
+              <a class="link link-hover" style="font-size: 18px" th:href="@{/show/song/{id}(id=${song.getId()})}" th:text="${song.getName()}">Unknown</a>
+            </div>
+            <div th:each="artist : ${song.getArtists()}" style="display: inline-block">
+              <div style="font-size: 14px" class="text-sm opacity-50">
+                <a class="link link-hover" th:text="${artist.getPseudonym()}" th:href="@{/show/artist/{id}(id=${artist.getId()})}">
+                  Unknown
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <audio controls class="bg-base-100" style="width: 390px; height: 30px" th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>
+      </td>
+
+      <td>
+        <div class="collapse bg-base-200" style="width: 350px">
+          <input type="checkbox" class="peer" />
+          <div class="collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content" th:text="#{search.table.text}">
+            Text
+          </div>
+          <div class="collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+            <pre th:text="${song.getText()}"></pre>
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <button class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>
+        <button class="btn btn-outline btn-warning" th:text="#{search.button.delete}">Warning</button>
+      </td> <!-- create button to add music in the library -->
+    </tr>
+<!--    &lt;!&ndash; row 1 &ndash;&gt;-->
+<!--    <tr>-->
+<!--      <td>-->
+<!--        <div class="flex items-center space-x-3">-->
+<!--          <div class="avatar">-->
+<!--            <div class="mask mask-squircle w-12 h-12">-->
+<!--              <img th:src="@{/source/foto/1}" alt="Avatar Tailwind CSS Component" />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div>-->
+<!--            <div class="font-bold">Hart Hagerty</div>-->
+<!--            <div class="text-sm opacity-50">United States</div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </td>-->
+<!--      <td>-->
+<!--        Zemlak, Daniel and Leannon-->
+<!--        <br/>-->
+<!--        <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>-->
+<!--      </td>-->
+<!--      <td>Purple</td>-->
+<!--      <th>-->
+<!--        <button class="btn btn-ghost btn-xs">details</button>-->
+<!--      </th>-->
+<!--    </tr>-->
+
+    <!-- foot -->
+    <tfoot>
+    <tr>
+      <!--            <th></th>-->
+      <th th:text="#{search.table.name}">Name</th>
+      <th th:text="#{search.table.music}">Music</th>
+      <th th:text="#{search.table.text}">Text</th>
+      <th></th>
+    </tr>
+    </tfoot>
+
+  </table>
+</div>
+
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+
+
+
+
+<!--<div class="overflow-x-auto">-->
+<!--<form th:method="DELETE" th:action="@{/speaker/login}">-->
+<!--  <input type="submit" value="logout"/>-->
+<!--</form>-->
+
+
+<!--&lt;!&ndash;<a href="login">log OUT</a>&ndash;&gt;-->
+<!--<form th:method="GET" th:action="@{/menu}">-->
+<!--  <input type="submit" value="back"/>-->
+<!--</form>-->
+
+
+
+<!--<form method="post" action="search">-->
+<!--  <br>-->
+<!--  <label for="singer">Singer</label>-->
+<!--  <input name="singer" type="text" id="singer"/>-->
+
+<!--  <br>-->
+
+<!--  <label for="song">Song &nbsp</label>-->
+<!--  <input name="song" type="text" id="song"/>-->
+
+<!--  <br>-->
+
+<!--  <p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="submit" value="search"/></p>-->
+<!--</form>-->
+
+
+<!--<div th:each="song : ${music}">-->
+<!--  <img th:src="@{/source/foto/1}" alt="HTML5 Icon" style="width: 5%; height: 5%">-->
+<!--  <a th:text="${song.getName()}"></a>-->
+<!--  <td>-->
+<!--    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>-->
+<!--  </td>-->
+<!--</div>-->
+<!--</div>-->
 
 </body>
 </html>

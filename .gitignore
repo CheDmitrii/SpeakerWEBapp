@@ -3,6 +3,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### Properties files ###
+**/*.properties
+!**/messages_*.properties
+
 ### IntelliJ IDEA ###
 .idea/
 .idea/modules.xml

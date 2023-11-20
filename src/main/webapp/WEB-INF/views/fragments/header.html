@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>header</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body class="bg-neutral">
+
+
+<div class="navbar bg-neutral-focus" th:fragment="header">
+    <div class="flex-1">
+        <a th:href="@{/speaker/wellcome}" class="btn btn-ghost normal-case font-mono" style="font-size: 35px">SpeakerWEB</a>
+    </div>
+    <div class="navbar-center">
+        <ul class="menu menu-horizontal">
+            <li><a class="font-mono text-lg/[25px]" style="font-size: 17px" th:href="@{/menu}" th:text="#{header.mainmenu}">MAIN MENU</a></li>
+            <li><a class="font-mono text-lg/[25px]" style="font-size: 17px" th:href="@{/menu/search}" th:text="#{header.search}">SEARCH</a></li>
+            <li><a class="font-mono text-lg/[25px]" style="font-size: 17px" th:href="@{/menu/library}" th:text="#{header.library}">LIBRARY</a></li>
+            <li><a class="font-mono text-lg/[25px]" style="font-size: 17px" th:href="@{/menu/artists}" th:text="#{header.artists}">ARTISTS</a></li>
+            <li><a class="font-mono text-lg/[25px]" style="font-size: 17px" th:href="@{/menu/albums}"th:text="#{header.albums}">ALBUMS</a></li>
+        </ul>
+    </div>
+    <div class="navbar-end">
+        <ul class="menu menu-horizontal">
+            <li th:if="${#locale.language.equals('en')}"><a class="font-mono text-lg/[25px]" style="font-size: 15px" th:href="@{?lang=ru}">EN</a></li>
+            <li th:if="${#locale.language.equals('ru')}"><a class="font-mono text-lg/[25px]" style="font-size: 15px" th:href="@{?lang=en}">RU</a></li>
+        </ul>
+
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <details>
+                    <summary class="font-mono">
+                        Parent
+                    </summary>
+                    <ul class="p-2 bg-base-100">
+                        <li><a class="font-mono" th:text="#{header.settings}">Settings</a></li>
+                        <li><a class="font-mono" th:text="#{header.logout}">LogOut</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!--<div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">-->
+<!--    <div class="navbar-header">-->
+<!--        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">-->
+<!--            <span class="icon-bar"></span>-->
+<!--            <span class="icon-bar"></span>-->
+<!--            <span class="icon-bar"></span>-->
+<!--        </button>-->
+<!--        <a class="navbar-brand" style="font-size: 36px" th:href="@{/speaker/wellcome}">SpeakerWEB</a>-->
+<!--    </div>-->
+<!--    <div class="navbar-collapse collapse">-->
+<!--        <ul class="nav navbar-nav">-->
+<!--            <li>-->
+<!--                <a style="font-size: 21px">SEARCH</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a style="font-size: 21px">MUSIC</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a style="font-size: 21px">LIBRARY</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--&lt;!&ndash;        <ul class="nav navbar-nav navbar-right">&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <a th:text="${user.getName()}">userrrr</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            </li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <li th:if="true">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <a href="/signin" th:href="@{/signin}">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                    <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Sign in&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                </a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            </li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <li th:if="${#authorization.expression('isAuthenticated()')}">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <a href="/logout" th:href="@{#}" onclick="$('#form').submit();">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                </a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            </li>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;        </ul>&ndash;&gt;-->
+<!--    </div>-->
+<!--</div>-->
+
+
+</body>
+</html>

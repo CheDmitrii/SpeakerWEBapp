@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>lib</title>
+    <title>library</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
-<form th:method="DELETE" th:action="@{/speaker/login}">
-  <input type="submit" value="logout"/>
-</form>
+<!--<form th:method="DELETE" th:action="@{/speaker/login}">-->
+<!--  <input type="submit" value="logout"/>-->
+<!--</form>-->
 
-<form th:method="GET" th:action="@{/menu}">
-  <input type="submit" value="back"/>
-</form>
+<!--<form th:method="GET" th:action="@{/menu}">-->
+<!--  <input type="submit" value="back"/>-->
+<!--</form>-->
 
-<h1>This is Library</h1>
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+
+
+
+
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
+
+<!--<a th:href="@{?lang=en}">English</a>-->
+<!--<a th:href="@{?lang=ru}">Russia</a>-->
+
+
+
+<!--<h1>This is Library</h1>-->
+<!--<h1>Это Русский текст</h1>-->
+
+<!--<a th:value="en" th:text="#{header.albums}"></a>-->
+<!--<div th:text="#{header.albums}"></div>-->
+<!--<br>-->
+<!--<br>-->
+<!--<a data-th-text="#{header.albums}"></a>-->
+<!--<div data-th-text="#{header.albums}"></div>-->
+<!--<br>-->
+<!--<div>[[#{label.header.mainmenu}]]</div>-->
 
 
 
 </body>
+
 </html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Artist</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+<div>
+    <div style="display: inline-block">
+        <p style="font-size: 30px" th:text="${artist.getPseudonym()}"></p>
+        <p style="font-size: 22px" th:text="${artist.getAge()}"></p>
+    </div>
+    <div style="display: inline-block">
+        <p style="font-size: 20px" th:text="${artist.getCountry()}"></p>
+    </div>
+</div>
+
+<div th:each="album : ${albums}">
+    <div class="avatar" style="display: inline-block">
+        <div class="rounded-xl w-12 h-12">
+            <img th:src="@{/source/foto/{id}(id=${album.getId()})}" alt="Avatar of album"/>
+        </div>
+    </div>
+    <div style="display: inline-block">
+        <a th:href="@{/show/album/{id}(id=${album.getId()})}" th:text="${album.getName()}"></a>
+    </div>
+</div>
+
+
+</body>
+</html>
