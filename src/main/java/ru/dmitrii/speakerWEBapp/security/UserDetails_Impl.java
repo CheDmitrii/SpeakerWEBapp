@@ -8,11 +8,9 @@ import java.util.Collection;
 
 public class UserDetails_Impl implements UserDetails {
 
-    private final int limvalue;
     private final User user;
 
     public UserDetails_Impl(User user) {
-        this.limvalue = user.getLimitValue();
         this.user = user;
     }
 
@@ -37,7 +35,7 @@ public class UserDetails_Impl implements UserDetails {
 
     public User getUser() {return user;}
 
-    public int getLimvalue() {return this.limvalue;}
+    public int getLimvalue() {return this.user.getLimitValue();}
 
     @Override
     public boolean isAccountNonExpired() {

@@ -6,7 +6,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.dmitrii.speakerWEBapp.DAO.MusicDAO;
 import ru.dmitrii.speakerWEBapp.security.UserDetails_Impl;
 import ru.dmitrii.speakerWEBapp.service.MusicService;
 import ru.dmitrii.speakerWEBapp.service.UserService;
@@ -56,11 +55,6 @@ public class MenuController {
     public String getLibrary(Model model, Authentication authentication) {
 
         model.addAttribute("usersongs", musicService.getUsersSongs(authentication));
-//        model.addAttribute("limval", userService.getUserLimValue(authentication));
-//        Locale locale = Locale.US; // @RequestParam(value = "lang", required = false) String lang
-//        if (lang != null && !lang.isEmpty()) {
-//            locale = new Locale(lang);
-//        }
 
         return "menus/library";
     }
