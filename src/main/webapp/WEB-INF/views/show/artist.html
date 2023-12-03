@@ -6,32 +6,169 @@
 
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
 
-<div>
-    <div style="display: inline-block">
-        <p style="font-size: 30px" th:text="${artist.getPseudonym()}"></p>
-        <p style="font-size: 22px" th:text="${artist.getAge()}"></p>
-    </div>
-    <div style="display: inline-block">
-        <p style="font-size: 20px" th:text="${artist.getCountry()}"></p>
-    </div>
-</div>
 
-<div th:each="album : ${albums}">
-    <div class="avatar" style="display: inline-block">
-        <div class="rounded-xl w-12 h-12">
-            <img th:src="@{/source/foto/{id}(id=${album.getId()})}" alt="Avatar of album"/>
+
+<div>
+    <div class="align-cart-of-singer avatar" style="margin-top: 40px">
+        <div class="rounded-xl w-48 h-48">
+            <img th:src="@{/source/foto/artist/1}" alt="Avatar of artist"/>
         </div>
     </div>
-    <div style="display: inline-block">
-        <a th:href="@{/show/album/{id}(id=${album.getId()})}" th:text="${album.getName()}"></a>
+    <div class="align-cart-of-singer bg-base-300 stats shadow">
+
+        <div class="stat">
+            <div class="stat-title" th:text="#{artist.cart.name}">Artist Name</div>
+            <div class="text-white stat-value text-primary" th:text="${artist.getPseudonym()}">Artist name</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title" th:text="#{artist.cart.birthday}">Birthday</div>
+            <div class="text-white stat-value text-secondary">
+                <a style="font-size: 22px;" th:text="${artist.getBithday()}"></a>
+                <a style="font-size: 18px" th:text="'(' + ${artist.getAge()} + #{artist.cart.birthday.value} + ')'"></a>
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-title" th:text="#{artist.cart.country}">Country</div>
+            <div class="text-white stat-value" th:text="${artist.getCountry()}">Russia</div>
+        </div>
+
     </div>
+
 </div>
+
+
+
+<!--<div class="stats shadow">-->
+
+<!--    <div class="stat">-->
+<!--&lt;!&ndash;        <div class="stat-figure text-primary">&ndash;&gt;-->
+<!--&lt;!&ndash;            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <div class="stat-title">Artist Name</div>-->
+<!--        <div class="text-white stat-value text-primary" th:text="${artist.getPseudonym()}">Artist name</div>-->
+<!--&lt;!&ndash;        <div class="stat-desc">21% more than last month</div>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="stat">-->
+<!--&lt;!&ndash;        <div class="stat-figure text-secondary">&ndash;&gt;-->
+<!--&lt;!&ndash;            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-8 h-8 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <div class="stat-title">Birthday</div>-->
+<!--        <div class="text-white stat-value text-secondary">-->
+<!--            <a style="font-size: 22px;" th:text="${artist.getBithday()}"></a>-->
+<!--            <a style="font-size: 18px" th:text="'(' + ${artist.getAge()} + ' years old)'"></a>-->
+
+<!--        </div>-->
+<!--&lt;!&ndash;        <div class="stat-desc" th:text="${artist.getAge()}">age</div>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--    <div class="stat">-->
+<!--&lt;!&ndash;        <div class="stat-figure text-secondary">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="avatar online">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="w-16 rounded-full">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--        <div class="stat-title">Country</div>-->
+<!--        <div class="text-white stat-value">Russia</div>-->
+<!--&lt;!&ndash;        <div class="stat-desc text-secondary">31 tasks remaining</div>&ndash;&gt;-->
+<!--    </div>-->
+
+<!--</div>-->
+
+
+
+
+
+
+<div class="table-center overflow-x-auto" style="width: 60%; margin-top: 30px">
+    <table class="text-white table table-zebra">
+        <thead>
+        <tr>
+            <th></th>
+            <th th:text="#{artist.table.album}">Album</th>
+<!--            <th th:text="#{albums.table.artist}">Artists</th>-->
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="album : ${albums}">
+        <tr>
+            <td>
+                <div class="avatar">
+                    <div class="rounded-full w-24 h-24">
+                        <img th:src="@{/source/foto/{id}(id=${album.getId()})}" alt="Avatar of music"/>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div>
+                    <div class="font-bold">
+                        <a class="link link-hover" style="font-size: 18px"
+                           th:attr="onclick=|sendData('@{/show/album/{id}(id=${album.getId()})}', ${#authorization.expression('isAuthenticated()')})|"
+                           th:text="${album.getName()}">Unknown</a>
+                    </div>
+
+                </div>
+            </td>
+
+
+            <td>
+                <button th:if="!${album.isAdd()}" class="btn btn-outline btn-success"
+                        th:attr="onclick=|addAlbum(this, '#{albums.button.add}', '#{albums.button.delete}', ${album.getId()},
+                        ${#authorization.expression('isAuthenticated()')}, ${limval}, ${album.getLimVal()})|"
+                        th:text="#{albums.button.add}">Success</button>
+                <button th:if="${album.isAdd()}" class="btn btn-outline btn-error"
+                        th:attr="onclick=|addAlbum(this, '#{albums.button.add}', '#{albums.button.delete}', ${album.getId()},
+                        ${#authorization.expression('isAuthenticated()')}, ${limval}, ${album.getLimVal()})|"
+                        th:text="#{albums.button.delete}">Error</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+<div id="sign-authorization" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.authentication.add.music}">To manage your library
+    (add music and albums)
+    you should AUTHENTICATE
+    before
+  </pre>
+</div>
+
+<!--work through model instead of http -->
+<div id="sign-invalid-album" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.limitation.add.album}"> Music not valid
+    for your limitation
+  </pre>
+</div>
+
+
+
+<div class="before-footer"></div>
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
+
+
+
 
 
 </body>

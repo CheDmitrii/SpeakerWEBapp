@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class SongMapper implements RowMapper<Song> { // add list of artists
+public class SongMapper implements RowMapper<Song> {
     @Override
     public Song mapRow(ResultSet rs, int rowNum) throws SQLException {
         Song song = new Song();
@@ -21,6 +21,7 @@ public class SongMapper implements RowMapper<Song> { // add list of artists
         song.setText(rs.getString("songtext"));
         song.setIdAlbum(rs.getInt("idalbum"));
         song.setAdd(rs.getBoolean("isadd"));
+        song.setLimValue(rs.getInt("limval"));
 
         List<Artist> primary = new LinkedList<>(), sub = new LinkedList<>();
 

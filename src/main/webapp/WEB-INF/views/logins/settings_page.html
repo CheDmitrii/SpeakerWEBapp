@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
+
+</head>
+<body>
+
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+
+<div class="avatar table-div setting-center" style="margin-top: 50px">
+            <div class="rounded-xl w-48 h-48">
+                <img th:src="@{/source/foto/artist/2}">
+            </div>
+        </div>
+</div>
+
+
+<div class="text-white hero min-h-screen">
+    <div class="hero-content flex-col lg:flex-row-reverse" style="width: 1000px">
+        <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-300">
+            <form class="card-body" th:action="@{/speaker/settings}" th:method="POST" th:object="${newUser}">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.username.label}">Username</span>
+                    </label>
+                    <input id="userName" th:field="*{username}" th:value="${user.username}" type="text"
+                           th:placeholder="#{settings.username.placeholder}" class="input input-bordered bg-base-300" required />
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="${newUser.username}" style="color: red"></div>
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.firstname.label}">First name</span>
+                    </label>
+                    <input id="firstName" th:field="*{firstName}" th:value="${user.firstName}" type="text"
+                           th:placeholder="#{settings.firstname.placeholder}" class="input input-bordered bg-base-300" required />
+                </div>
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.secondname.label}">Second name</span>
+                    </label>
+                    <input id="secondName" th:field="*{secondName}" th:value="${user.secondName}" type="text"
+                           th:placeholder="#{settings.secondname.placeholder}" class="input input-bordered bg-base-300" required />
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.birthday.label}">Birthday</span>
+                    </label>
+                    <input id="date" name="date" type="text" th:value="${user.getBirthdayString()}"
+                           th:placeholder="#{settings.birthday.placeholder}" class="input input-bordered bg-base-300" />
+                    <div th:if="${#fields.hasErrors('birthday')}" th:errors="${newUser.birthday}" style="color: red"></div>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.limitation.label}">Limitation</span>
+                    </label>
+                    <select id="select-item" class="text-white select select-bordered w-full max-w-xs bg-base-300" th:field="*{idLim}" style="width: 350px">
+                        <option selected="selected" th:text="${user.getLimName()} + ' ' + ${user.getLimitValue()}" th:value="${user.getIdLim()}"></option>
+                        <option th:each="limit : ${limitations}" th:value="${limit.getId()}" th:text="${limit.getName()} + ' ' + ${limit.getValue()}"></option>
+                    </select>
+                    <div th:text="#{settings.limitation.warning}" style="color: red"></div>
+                </div>
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.subscribe.label}">Subscribes</span>
+                    </label>
+                    <select id="select-item-subscribe" class="select select-bordered w-full max-w-xs bg-base-300" th:field="*{idSubscribe}" style="width: 350px">
+                        <option selected="selected" th:text="${user.getSubscribeName()} + ' ' + ${user.getSubscribeCost()}" th:value="${user.getIdSubscribe()}"></option>
+                        <option th:each="sub : ${subscribes}" th:value="${sub.getIdSubscribe()}" th:text="${sub.getName()} + ' = ' + ${sub.getCost()}"></option>
+                    </select>
+                </div>
+
+
+
+                <div class="form-control">
+                    <label class="label">
+                        <span class="text-white label-text" th:text="#{settings.password.label}">Password</span>
+                    </label>
+                    <input id="password" th:field="*{password}" th:value="${user.password}" type="text"
+                           th:placeholder="#{settings.password.placeholder}" class="input input-bordered bg-base-300" required />
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="${newUser.password}" style="color: red"></div>
+                </div>
+
+                <div class="form-control mt-6">
+                    <button type="submit" class="btn btn-primary" th:text="#{settings.button.save}">SAVE</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div th:insert="~{fragments/footer :: footer}"></div>
+
+</body>
+</html>

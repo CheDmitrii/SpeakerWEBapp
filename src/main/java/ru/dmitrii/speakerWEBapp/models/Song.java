@@ -10,13 +10,14 @@ public class Song {
     private List<Artist> subArtists;
     private String text;
     private String path;
-
+    private int limValue;
     private boolean isAdd;
 
     public Song() {}
 
-    public Song(int id, int idAlbum, String name, List<Artist> artists,
-                List<Artist> subArtists, String text, String path, boolean isAdd) {
+    public Song(int id, int idAlbum, String name,
+                List<Artist> artists, List<Artist> subArtists,
+                String text, String path, int limValue, boolean isAdd) {
         this.id = id;
         this.idAlbum = idAlbum;
         this.name = name;
@@ -24,8 +25,10 @@ public class Song {
         this.subArtists = subArtists;
         this.text = text;
         this.path = path;
+        this.limValue = limValue;
         this.isAdd = isAdd;
     }
+
 
     public int getId() {
         return id;
@@ -76,6 +79,13 @@ public class Song {
         this.path = path;
     }
 
+    public int getLimValue() {
+        return limValue;
+    }
+    public void setLimValue(int limValue) {
+        this.limValue = limValue;
+    }
+
     public boolean isAdd() {
         return isAdd;
     }
@@ -83,7 +93,7 @@ public class Song {
         isAdd = add;
     }
 
-    public boolean isEmptySubArtistists() {
-        return subArtists.isEmpty();
+    public boolean hasFeats() {
+        return subArtists != null && !subArtists.isEmpty();
     }
 }

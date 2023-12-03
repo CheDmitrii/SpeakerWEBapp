@@ -8,42 +8,147 @@
     <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
     <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
 </head>
 <body>
 
-<!--<form th:method="DELETE" th:action="@{/speaker/login}">-->
-<!--  <input type="submit" value="logout"/>-->
-<!--</form>-->
-
-<!--<form th:method="GET" th:action="@{/menu}">-->
-<!--  <input type="submit" value="back"/>-->
-<!--</form>-->
 
 
 <div th:insert="~{fragments/header :: header}"></div>
 
+<div class="text-white">
+    <br>
+    <h1 style="font-size: 18px; margin-left: 30px" th:text="#{library.tutorial}">
+        Enter music name <u>OR</u> artist name to find music
+    </h1>
+</div>
+
+
+<form style="margin-left: 40px; margin-top: 25px"
+      th:attr="onsubmit=|sendDataLibraryForm()|"
+      th:action="@{/menu/library}" th:method="POST">
+
+    <div class="join">
+        <div>
+            <div>
+                <input id="music" name="music" class="search-input input input-bordered join-item" th:value="${songVal}"
+                       th:placeholder="#{library.search.music.placeholder}"/>
+            </div>
+        </div>
+        <div>
+            <div>
+                <input id="artist" name="artist" class="search-input input input-bordered join-item" th:value="${artistVal}"
+                       th:placeholder="#{library.search.artist.placeholder}"/>
+            </div>
+        </div>
+        <div class="indicator">
+            <button type="submit" name="findSubmit" class="btn-search btn join-item bg-neutral"
+                    th:text="#{library.search.button.search}">Search</button>
+        </div>
+    </div>
+</form>
 
 
 
 
+<div class="overflow-x-auto" style="margin-top: 30px">
+    <table class="text-white table table-zebra">
+        <thead>
+        <tr>
+            <th th:text="#{library.table.name}">Name</th>
+            <th th:text="#{library.table.music}">Music</th>
+            <th th:text="#{library.table.text}">Text</th>
+            <th th:text="#{library.table.limitation}">Lim</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="song : ${usersongs}">
+        <tr>
+            <td>
+                <div class="flex item-center space-x-3">
+                    <div class="avatar">
+                        <div class="rounded-full w-12 h-12">
+                            <img th:src="@{/source/foto/{id}(id=${song.getIdAlbum()})}" alt="Avatar of music"/>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-bold">
+                            <a class="link link-hover" style="font-size: 18px; display: inline-block"
+                               th:attr="onclick=|sendDataLibrary('@{/show/song/{id}(id=${song.getId()})}')|"
+                               th:text="${song.getName()}">Unknown</a>
+                            <div th:if="${song.hasFeats()}" style="display: inline-block">
+                                <div style="display: inline-block">
+                                    <a th:text="' ft.'"></a>
+                                </div>
+                                <div th:each="subs : ${song.getSubArtists()}" style="display: inline-block">
+                                    <a text="' '" style="display: inline-block"></a>
+                                    <a class="link link-hover" style="display: inline-block"
+                                       th:attr="onclick=|sendDataLibrary('@{/show/artist/{id}(id=${subs.getId()})}')|"
+                                       th:text="${subs.getPseudonym()}"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:each="artist : ${song.getArtists()}" style="display: inline-block">
+                            <div style="font-size: 14px" class="opacity-50">
+                                <a class="text-white link link-hover"
+                                   th:attr="onclick=|sendDataLibrary('@{/show/artist/{id}(id=${artist.getId()})}')|"
+                                   th:text="${artist.getPseudonym()}">
+                                    Unknown
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <audio controls class="bg-base-100" style="width: 390px; height: 30px" th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>
+            </td>
+
+            <td>
+                <div class="collapse bg-base-200" style="width: 350px;">
+                    <input type="checkbox" class="peer" />
+                    <div class="collapse-title bg-primary text-primary-content " th:text="#{search.table.text}">
+                        <!--            peer-checked:bg-secondary peer-checked:text-secondary-content-->
+                        Text
+                    </div>
+                    <div class="collapse-content collapse-max-height bg-primary text-primary-content">
+                        <!--            peer-checked:bg-secondary peer-checked:text-secondary-content-->
+                        <pre th:text="${song.getText()}"></pre>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <a th:text="${song.getLimValue()}">lim</a>
+            </td>
+
+            <td>
+                <button th:attr="onclick=|addSongLibrary(this, '#{library.button.add}',
+                        '#{library.button.delete}', ${song.getId()})|"
+                        class="btn btn-outline btn-error" th:text="#{library.button.delete}">Error</button>
+            </td> <!-- create button to add music in the library -->
+        </tr>
+        <tfoot>
+        <tr>
+            <th th:text="#{library.table.name}">Name</th>
+            <th th:text="#{library.table.music}">Music</th>
+            <th th:text="#{library.table.text}">Text</th>
+            <th th:text="#{library.table.limitation}"></th>
+            <th></th>
+        </tr>
+        </tfoot>
+
+    </table>
+</div>
+
+
+
+
+
+
+<div class="before-footer"></div>
 <div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
-
-<!--<a th:href="@{?lang=en}">English</a>-->
-<!--<a th:href="@{?lang=ru}">Russia</a>-->
-
-
-
-<!--<h1>This is Library</h1>-->
-<!--<h1>Это Русский текст</h1>-->
-
-<!--<a th:value="en" th:text="#{header.albums}"></a>-->
-<!--<div th:text="#{header.albums}"></div>-->
-<!--<br>-->
-<!--<br>-->
-<!--<a data-th-text="#{header.albums}"></a>-->
-<!--<div data-th-text="#{header.albums}"></div>-->
-<!--<br>-->
-<!--<div>[[#{label.header.mainmenu}]]</div>-->
 
 
 

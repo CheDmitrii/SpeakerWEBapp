@@ -5,30 +5,91 @@
     <title>Artists</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
 
-<div th:each="artist : ${artists}">
-    <div style="display: inline-block">
-        <div class="avatar">
-            <div class="rounded-xl w-12 h-12">
-                <img th:src="@{/source/foto/artist/1}">
+
+
+<form id="findMusic" style="margin-left: 40px; margin-top: 25px" th:action="@{/menu/artists}" th:method="POST">
+    <div class="join">
+        <div>
+            <div>
+                <input id="artist" name="artist" class="search-input input input-bordered join-item" th:value="${artistVal}"
+                       th:placeholder="#{artists.search.artist.placeholder}"/>
             </div>
         </div>
+        <div>
+            <div>
+                <input name="album" class="search-input input input-bordered join-item" th:value="${albumVal}"
+                       th:placeholder="#{artists.search.album.placeholder}"/>
+            </div>
+        </div>
+        <div class="indicator">
+            <button type="submit" name="findSubmit" class="btn-search btn join-item bg-neutral"
+                    th:text="#{artists.search.button.search}">Search</button>
+        </div>
     </div>
-    <div style="display: inline-block">
-        <a th:href="@{/show/artist/{id}(id=${artist.getId()})}" th:text="${artist.getPseudonym()}"></a>
-    </div>
-    <div style="display: inline-block">
-        <a th:text="${artist.getAge()}"></a>
-    </div>
-    <div style="display: inline-block">
-        <a th:text="${artist.getCountry()}"></a>
-    </div>
+</form>
+
+
+<div class="table-center overflow-x-auto" style="width: 70%; margin-top: 30px">
+    <table class="text-white table table-zebra">
+        <thead>
+        <tr>
+            <th></th>
+            <th th:text="#{artists.table.name}">Name</th>
+            <th th:text="#{artists.table.age}">Age</th>
+            <th th:text="#{artists.table.country}">Country</th>
+        </tr>
+        </thead>
+        <tbody th:each="artist : ${artists}">
+        <tr>
+            <td>
+                <div class="avatar">
+                    <div class="rounded-full w-16 h-16">
+                        <img th:src="@{/source/foto/artist/1}" alt="Avatar of music"/>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div>
+                    <div class="font-bold">
+                        <a class="link link-hover" style="font-size: 18px" th:href="@{/show/artist/{id}(id=${artist.getId()})}"
+                           th:text="${artist.getPseudonym()}">Unknown</a>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div>
+                    <a th:text="${artist.getAge()}"></a>
+                </div>
+            </td>
+
+            <td>
+                <div>
+                    <a th:text="${artist.getCountry()}"></a>
+                </div>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
 </div>
+
+
+
+
+
+<div class="before-footer"></div>
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

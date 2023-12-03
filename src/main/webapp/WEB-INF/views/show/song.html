@@ -6,50 +6,106 @@
 
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body>
 
 
 <div th:insert="~{fragments/header :: header}"></div>
 
-<div class="avatar" style="display: flex; justify-content: center">
-    <div class="mask mask-squircle w-96 h-96">
-        <img th:src="@{/source/foto/{id}(id=${song.getIdAlbum()})}" alt="Avatar Tailwind CSS Component"/>
+
+<div class="center-image avatar" style="margin-top: 40px">
+    <div class="rounded-xl w-96">
+        <img th:src="@{/source/foto/{id}(id=${song.getIdAlbum()})}" alt="Picture of song">
     </div>
 </div>
+
+<div class="text-white center-div" style="margin-top: 30px">
+    <a class="link link-hover" style="font-size: 30px; display: inline-block" th:text="${song.getName()}"
+       th:attr="onclick=|sendData('@{/show/song/{id}(id=${song.getId()})}', ${#authorization.expression('isAuthenticated()')})|"></a>
+    <div th:if="${song.hasFeats()}" style="font-size: 28px;display: inline-block">
+        <a th:text="' '" style="font-size: 23px;display: inline-block"></a>
+        <a th:text="'ft.'" style="display: inline-block"></a>
+        <div th:each="subs : ${song.getSubArtists()}" style="display: inline-block">
+            <a th:text="' '" style="font-size: 28px;display: inline-block"></a>
+            <a class="link link-hover" th:text="${subs.getPseudonym()}"
+               th:attr="onclick=|sendData('@{/show/artist/{id}(id=${subs.getId()})}',
+               ${#authorization.expression('isAuthenticated()')})|"></a>
+        </div>
+    </div>
+    <div style="display: inline-block; margin-left: 30px">
+        <button th:if="${song.isAdd()}" th:attr="onclick=|addSong(this, '#{song.button.add}', '#{song.button.delete}',
+                ${song.getId()}, ${#authorization.expression('isAuthenticated()')}, ${limval}, ${song.getLimValue()})|"
+                class="btn btn-outline btn-error" th:text="#{search.button.delete}">Success</button>
+        <button th:if="!${song.isAdd()}" th:attr="onclick=|addSong(this, '#{song.button.add}', '#{song.button.delete}',
+                ${song.getId()}, ${#authorization.expression('isAuthenticated()')}, ${limval}, ${song.getLimValue()})|"
+                class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>
+    </div>
+</div>
+
+
+<div class="text-white center-div " style="margin-top: 0px">
+    <div th:each="artist : ${song.getArtists()}" style="font-size: 25px; display: inline-block">
+        <a class="link link-hover" th:text="${artist.getPseudonym()}" th:attr="onclick=|sendData('@{/show/artist/{id}(id=${artist.getId()})}',
+               ${#authorization.expression('isAuthenticated()')})|"></a>
+        <a th:text="' '" style="font-size: 20px;display: inline-block"></a>
+    </div>
+</div>
+
+
+<br>
 
 <div>
-    <div class="font-bolt" style="font-size: 22px; display: flex; justify-content: center" >
-        <a th:href="@{/show/song/{id}(id=${song.getId()})}" th:text="${song.getName()}"></a>
-    </div>
+    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" style="margin: 0 auto; display: block; width: 500px; height: 53px" type="audio/mpeg"></audio>
 </div>
+
 
 <br>
 
-<div th:each="artist : ${song.getArtists()}" style="display: inline-block">
-    <div class="font-bolt" style="font-size: 20px; display: flex; justify-content: center">
-        <a class="link link-hover" th:text="${artist.getPseudonym()}" th:href="@{/show/artist/{id}(id=${artist.getId()})}"></a>
-    </div>
-</div>
+
 
 <br>
 
-<div>
-    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" style="margin: 0 auto; display: block; width: 600px; height: 53px" type="audio/mpeg"></audio>
-</div>
-
-<br>
-
-<div class="collapse bg-base-200" style="width: 750px; margin: 0 auto">
+<div class="collapse bg-base-200 center-div" style="width: 500px;">
     <input type="checkbox" class="peer" />
-    <div class="collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+    <div class="collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content"
+         th:text="#{song.text}">
         Text
     </div>
-    <div class="collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+    <div class="collapse-big collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
         <pre th:text="${song.getText()}"></pre>
     </div>
 </div>
+
+
+
+
+
+<div id="sign-authorization" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.authentication.add.music}">To manage your library
+    (add music and albums)
+    you should AUTHENTICATE
+    before
+  </pre>
+</div>
+
+
+<!--work through model instead of http -->
+<div id="sign-invalid-music" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.limitation.add.music}"> Music not valid
+    for your limitation
+  </pre>
+</div>
+
+
+
+<div class="before-footer"></div>
+<div class="before-footer"></div>
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

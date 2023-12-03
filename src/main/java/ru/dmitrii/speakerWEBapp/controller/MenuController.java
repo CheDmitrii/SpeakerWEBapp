@@ -2,89 +2,123 @@ package ru.dmitrii.speakerWEBapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.dmitrii.speakerWEBapp.DAO.MusicDAO;
-
-import java.util.Locale;
+import ru.dmitrii.speakerWEBapp.security.UserDetails_Impl;
+import ru.dmitrii.speakerWEBapp.service.MusicService;
+import ru.dmitrii.speakerWEBapp.service.UserService;
 
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
-    private final MusicDAO musicDAO;
     private final MessageSource messageSource;
+    private final MusicService musicService;
+    private final UserService userService;
     @Autowired
-    public MenuController(MusicDAO musicDAO, MessageSource messageSource) {
-        this.musicDAO = musicDAO;
+    public MenuController(MessageSource messageSource, MusicService musicService, UserService userService) {
         this.messageSource = messageSource;
+        this.musicService = musicService;
+        this.userService = userService;
     }
     @GetMapping("")
-    public String getMainMenu() {return "menus/mainMenu";}
-
-//    @PostMapping("")
-//    public String choseMenu(@RequestParam(value = "kind", required = false) String kind) {
-//        return switch (kind) {
-//            case "search" -> "redirect:menu/search";
-//            case "library" -> "redirect:menu/library";
-//            default -> "menus/mainMenu";
-//        };
-//    }
-
-    @GetMapping("/albums")
-    public String getAlbums(Model model) {
-        model.addAttribute("albums", musicDAO.getAllAlbums());
-        return "menus/albums";
+    public String getMainMenu() {
+        return "menus/mainMenu";
     }
 
+
     @GetMapping("/search")
-    public String getSearch(Model model) {
-        model.addAttribute("music", musicDAO.getAllSong());
+    public String getSearch(Model model, Authentication authentication) {
+
+        model.addAttribute("music", musicService.getAllSongs(authentication));
+        model.addAttribute("limval", userService.getUserLimValue(authentication));
+
         return "menus/search";
     }
 
-    @GetMapping("/artists")
-    public String getArtists(Model model) {
-        model.addAttribute("artists", musicDAO.getAllArtist());
-        return "menus/artists";
+    @PostMapping("/search")
+    public String postFindSearch(@RequestParam(value = "music", required = false, defaultValue = "") String song,
+                                 @RequestParam(value = "artist", required = false, defaultValue = "") String artist,
+                                 Authentication authentication,
+                                 Model model) {
+
+        model.addAttribute("music", musicService.findSongs(authentication, song, artist));
+        model.addAttribute("limval", userService.getUserLimValue(authentication));
+        model.addAttribute("songVal", song);
+        model.addAttribute("artistVal", artist);
+
+        return "menus/search";
     }
 
     @GetMapping("/library")
-    public String getLibrary() {
+    public String getLibrary(Model model, Authentication authentication) {
+
+        model.addAttribute("usersongs", musicService.getUsersSongs(authentication));
+//        model.addAttribute("limval", userService.getUserLimValue(authentication));
 //        Locale locale = Locale.US; // @RequestParam(value = "lang", required = false) String lang
 //        if (lang != null && !lang.isEmpty()) {
 //            locale = new Locale(lang);
 //        }
-//        System.out.println(messageSource.getMessage("test", null, "failed", locale));
-//        System.out.println(messageSource.getMessage("test", null, "def mess", new Locale("ru")));
-//        System.out.println("----------------------------------");
+
+        return "menus/library";
+    }
+
+    @PostMapping("/library")
+    public String postLibrary(@RequestParam(value = "song", required = false, defaultValue = "") String song,
+                              @RequestParam(value = "artist", required = false, defaultValue = "") String artist,
+                              Authentication authentication,
+                              Model model) {
+
+        model.addAttribute("usersongs",
+                musicService.findSongsLibrary(((UserDetails_Impl)authentication.getPrincipal()).getID(), song, artist)
+        );
+        model.addAttribute("songVal", song);
+        model.addAttribute("artistVal", artist);
+
         return "menus/library";
     }
 
 
-
-
-    @ModelAttribute
-    public void user(Model model) {
-        model.addAttribute("user", "FGHJKJHGFGHJK");
+    @GetMapping("/artists")
+    public String getArtists(Model model) {
+        model.addAttribute("artists", musicService.getAllArtists());
+        return "menus/artists";
     }
 
-//    @GetMapping("/search")
-//    public String getSong(@RequestParam(value = "singer", required = false) String singer,
-//                          @RequestParam(value = "song", required = false) String song,
-//                          Model model) {
-//        model.addAttribute("searchError", true);
-//        if (singer != null || song != null) {
-//        } else {
-//            model.addAttribute("searchError", true);
-//        }
-//        return "menus/search";
-//    }
+    @PostMapping("/artists")
+    public String postArtists(@RequestParam(value = "artist", required = false, defaultValue = "") String artist,
+                              @RequestParam(value = "album", required = false, defaultValue = "") String album,
+                              Model model) {
 
-//    @GetMapping("/showSong")
-//    public String show() {
-//        return "players/showSong";
-//    }
+        model.addAttribute("artists", musicService.findArtists(artist, album));
+        model.addAttribute("artistVal", artist);
+        model.addAttribute("albumVal", album);
 
+        return "menus/artists";
+    }
+
+    @GetMapping("/albums")
+    public String getAlbums(Model model, Authentication authentication) {
+
+        model.addAttribute("albums", musicService.getAllAlbums(authentication));
+        model.addAttribute("limval", userService.getUserLimValue(authentication));
+
+        return "menus/albums";
+    }
+
+    @PostMapping("/albums")
+    public String postAlbums(@RequestParam(value = "album", required = false, defaultValue = "") String album,
+                             @RequestParam(value = "artist", required = false,defaultValue = "") String artist,
+                             Authentication authentication,
+                             Model model) {
+
+        model.addAttribute("limval", userService.getUserLimValue(authentication));
+        model.addAttribute("albums", musicService.findAlbums(authentication, album, artist));
+        model.addAttribute("albumVal", album);
+        model.addAttribute("artistVal", artist);
+
+        return "menus/albums";
+    }
 }

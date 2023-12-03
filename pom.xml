@@ -8,7 +8,10 @@
   <name>SpeakerWEBapp Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <properties>
-    <spring.version>6.0.12</spring.version>
+<!--    6.0.12-->
+    <spring.version>6.1.1</spring.version>
+    <spring.secutity.version>6.2.0</spring.secutity.version>
+    <thymeleaf.version>3.1.2.RELEASE</thymeleaf.version>
     <maven.compiler.source>19</maven.compiler.source>
     <maven.compiler.target>19</maven.compiler.target>
   </properties>
@@ -54,8 +57,16 @@
     <dependency>
       <groupId>org.thymeleaf</groupId>
       <artifactId>thymeleaf-spring6</artifactId>
-      <version>3.1.2.RELEASE</version>
+      <version>${thymeleaf.version}</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6 -->
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+      <version>${thymeleaf.version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>jakarta.servlet</groupId>
@@ -82,6 +93,25 @@
       <version>1.18.30</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring.secutity.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring.secutity.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.16.0</version>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>SpeakerWEBapp</finalName>

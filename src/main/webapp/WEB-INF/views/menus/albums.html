@@ -3,33 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <title>Albums</title>
-    <link href="../../../resources/css/buttons.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+    <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+    <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
 
 <div th:insert="~{fragments/header :: header}"></div>
 
-<div th:each="album : ${albums}">
-    <div class="avatar">
-        <div class="rounded-md w-24">
-            <img th:src="@{/source/foto/{id}(id=${album.getId()})}" alt="album picture">
-        </div>
-    </div>
-    <div>
-        <div class="font-bold">
-            <a style="font-size: 16px" th:href="@{/show/album/{id}(id=${album.getId()})}" th:text="${album.getName()}">Unknown</a>
-        </div>
-        <div th:each="artist : ${album.getArtists()}">
-            <div style="font-size: 18px" class="font-bold">
-                <a th:href="@{/show/artist/{id}(id=${artist.getId()})}" th:text="${artist.getPseudonym()}">Unknown</a>
+
+
+<form style="margin-left: 40px; margin-top: 25px"
+      th:attr="onsubmit=|sendDataForm(${#authorization.expression('isAuthenticated()')})|"
+      th:action="@{/menu/albums}" th:method="POST">
+
+    <div class="join">
+        <div>
+            <div>
+                <input id="album" name="album" class="search-input input input-bordered join-item" th:value="${albumVal}"
+                       th:placeholder="#{albums.search.album.placeholder}"/>
             </div>
         </div>
+        <div>
+            <div>
+                <input id="artist" name="artist" class="search-input input input-bordered join-item" th:value="${artistVal}"
+                       th:placeholder="#{albums.search.artist.placeholder}"/>
+            </div>
+        </div>
+        <div class="indicator">
+            <button type="submit" name="findSubmit" class="btn-search btn join-item bg-neutral"
+                    th:text="#{albums.search.button.search}">Search</button>
+        </div>
     </div>
+</form>
+
+
+
+<div class="table-center overflow-x-auto" style="width: 80%; margin-top: 30px">
+    <table class="text-white table table-zebra">
+        <thead>
+        <tr>
+            <th></th>
+            <th th:text="#{albums.table.name}">Name</th>
+            <th th:text="#{albums.table.artist}">Artists</th>
+            <th th:text="#{albums.table.limitation}">Lim</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="album : ${albums}">
+        <tr>
+            <td>
+                <div class="avatar">
+                    <div class="rounded-full w-14 h-14">
+                        <img th:src="@{/source/foto/{id}(id=${album.getId()})}" alt="Avatar of music"/>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <div>
+                    <div class="font-bold">
+                        <a class="link link-hover" style="font-size: 18px"
+                           th:attr="onclick=|sendData('@{/show/album/{id}(id=${album.getId()})}', ${#authorization.expression('isAuthenticated()')})|"
+                           th:text="${album.getName()}">Unknown</a>
+                    </div>
+
+                </div>
+            </td>
+
+            <td>
+                <div th:each="artist : ${album.getArtists()}" style="display: inline-block">
+                    <div style="font-size: 14px" class="font-bold">
+                        <a class="link link-hover" th:text="${artist.getPseudonym()} + '  '"
+                           th:attr="onclick=|sendData('@{/show/artist/{id}(id=${artist.getId()})}', ${#authorization.expression('isAuthenticated()')})|">
+                            Unknown
+                        </a>
+                    </div>
+                </div>
+            </td>
+
+            <td>
+                <a th:text="${album.getLimVal()}"></a>
+            </td>
+
+            <td>
+                <button th:if="!${album.isAdd()}" class="btn btn-outline btn-success"
+                        th:attr="onclick=|addAlbum(this, '#{albums.button.add}', '#{albums.button.delete}', ${album.getId()},
+                        ${#authorization.expression('isAuthenticated()')}, ${limval}, ${album.getLimVal()})|"
+                        th:text="#{albums.button.add}">Success</button>
+                <button th:if="${album.isAdd()}" class="btn btn-outline btn-error"
+                        th:attr="onclick=|addAlbum(this, '#{albums.button.add}', '#{albums.button.delete}', ${album.getId()},
+                        ${#authorization.expression('isAuthenticated()')}, ${limval}, ${album.getLimVal()})|"
+                        th:text="#{albums.button.delete}">Error</button>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th></th>
+            <th th:text="#{albums.table.name}">Name</th>
+            <th th:text="#{albums.table.artist}">Artists</th>
+            <th th:text="#{albums.table.limitation}">Lim</th>
+            <th></th>
+        </tr>
+        </tfoot>
+    </table>
 </div>
 
+
+
+
+
+<div id="sign-authorization" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.authentication.add.music}">To manage your library
+    (add music and albums)
+    you should AUTHENTICATE
+    before
+  </pre>
+</div>
+
+<!--work through model instead of http -->
+<div id="sign-invalid-album" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.limitation.add.album}"> Music not valid
+    for your limitation
+  </pre>
+</div>
+
+
+
+<div class="before-footer"></div>
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
 
 
 

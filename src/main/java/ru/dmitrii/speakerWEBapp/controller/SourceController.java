@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.dmitrii.speakerWEBapp.DAO.MusicDAO;
 import ru.dmitrii.speakerWEBapp.models.User;
@@ -109,5 +110,22 @@ public class SourceController {
 //        final HttpHeaders httpHeaders= new HttpHeaders();
 //        httpHeaders.add("Content-Type", "text/css; charset=utf-8");
 //        return new ResponseEntity<String>( sb.toString(), httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/resources/js/{code}.js")
+    public ResponseEntity<String> js(@PathVariable("code") String code) throws IOException {
+
+        File file = ResourceUtils.getFile("classpath:/js/" + code + ".js");
+
+        InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(file.getAbsolutePath()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStreamResource.getInputStream()));
+        StringBuffer stringBuffer = new StringBuffer();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            stringBuffer.append(line + "\n");
+        }
+        final HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "text/javascript; charset=utf-8");
+        return new ResponseEntity<>(stringBuffer.toString(), headers, HttpStatus.OK);
     }
 }

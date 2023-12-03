@@ -1,3 +1,13 @@
+/*CSS for search form */
+
+.center-form {
+    justify-content: center;
+    text-align: center;
+}
+
+
+/*CSS for footer (then be in the end of page) */
+
 .footer-ended {
     position: fixed;
     bottom: 0;
@@ -6,6 +16,16 @@
     /*z-index: 10;*/
 }
 
+/*CSS then footer (footer-ended) don't overflow previos element */
+.before-footer {
+    /*display: none;*/
+    height: 60px;
+    width: 100%;
+}
+
+
+/*CSS filter for black and white background of welcome page*/
+
 .black-white-filter {
     -webkit-backdrop-filter: grayscale(100%);
     backdrop-filter: grayscale(100%);
@@ -13,4 +33,201 @@
 
 .filter_own {
     filter: grayscale(100%);
+}
+
+
+/*CSS for description div of main menu page*/
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.blocks {
+    display: flex;
+    justify-content: center;
+}
+
+.table-div {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.div-text {
+    vertical-align: top;
+    margin-left: 10px;
+    background-color: grey;
+    border-radius: 5px;
+    transition: transform .2s;
+}
+
+.div-text:hover {
+    border-radius: 5px;
+    background-color: grey;
+    transform: scale(1.2);
+    /*transition: background 0.1s ease;*/
+}
+
+.div-text a {
+    font-size: 20px;
+}
+
+.div-text pre {
+    font-size: 18px;
+}
+
+.div-text:hover a {
+    color: black;
+}
+
+.div-text:hover pre {
+    color: black;
+}
+
+.pre-desc {
+    margin-top: 6px;
+}
+
+
+/*CSS for settings page*/
+
+.setting-center {
+    position: relative;
+    margin-top: 3px;
+    display: flex;
+    justify-content: center;
+}
+
+.setting-center-label {
+    position: relative;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+input{
+    opacity:100%;
+}
+
+.text-white {
+    color: white;
+    opacity: 100%;
+}
+
+text {
+    color: white;
+}
+
+input::placeholder {
+    opacity: 30%; /*Change the opacity between 0 and 1*/
+}
+
+
+/*CSS for show sign when not authorise user try add music*/
+
+.sign-center {
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+
+
+    /*margin: auto;*/
+    display: none;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+
+
+    border-radius: 5px;
+    background-color: darkred;
+    z-index: 1;
+    animation: ani 0.1s;
+}
+
+@keyframes ani {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+/*.sign-center a {*/
+/*    margin-left: 5px;*/
+/*}*/
+
+.sign-center pre {
+    margin-top: 10px;
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.sign-center-text {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+/*works with bugs*/
+/*@keyframes ani {*/
+/*    0% {transform: translateX(-10%);}*/
+/*    15% {transform: translateX(5%);}*/
+/*    30% {transform: translateX(-5%);}*/
+/*    45% {transform: translateX(3%);}*/
+/*    60% {transform: translateX(-3%);}*/
+/*    75% {transform: translateX(1%);}*/
+/*    85% {transform: translateX(-1%);}*/
+/*    100% {transform: translateX(0%);}*/
+/*}*/
+
+/*CSS for albums page*/
+.table-center {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/*CSS for header*/
+
+.language-place {
+    position: absolute;
+    margin-top: 20px;
+}
+
+/*CSS for show artist page*/
+
+.align-cart-of-singer {
+    vertical-align: middle;
+    margin-left: 40px;
+}
+
+/*CSS for set image and other element in the center*/
+
+.center-image {
+    display: flex;
+    justify-content: center;
+}
+
+.center-div {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    /*justify-content: center;*/
+}
+
+/*CSS for border div*/
+
+.border-div {
+    border-radius: 5px;
+    max-width: 220px;
+}
+
+/*CSS class to add and delete album and songs on single album page (album.html)*/
+
+.album-btn {
+
+}
+
+.song-btn {
+
 }

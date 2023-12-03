@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>search</title>
@@ -7,52 +7,52 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
   <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
   <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
   <script src="https://cdn.tailwindcss.com"></script>
 
-<!--  <style>-->
-<!--    .btn-search-speaker {-->
-<!--      border: 1px solid grey;-->
-<!--      padding: 10px;-->
-<!--      border-radius: 10px;-->
-<!--    }-->
-<!--    .btn-search-speaker:hover {-->
-<!--      background-color: darkred;-->
-<!--      border: 1px solid darkred;-->
-<!--      color: white;-->
-<!--      cursor: pointer-->
-<!--    }-->
-<!--  </style>-->
 </head>
 <body>
 
 
-
 <div th:insert="~{fragments/header :: header}"></div>
 
-<div>
-  <br>
-  <h1 style="font-size: 18px; margin-left: 30px" th:text="#{search.tutorial}">Enter music name <u>OR</u> artist name to find music</h1>
-</div>
 
-<div class="join" style="margin-top: 20px; margin-left: 10px" th:method="POST" th:action="@{/menu/search}">
-  <div>
-    <label></label>
+<!--th:attr="onclick=|addSong(this, '#{search.button.add}', '#{search.button.delete}')|"-->
+<!--<button id="butt" onclick="sendData('myURL')" class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>-->
+
+<!--<div class="text-white">-->
+<!--  <br>-->
+<!--  <h1 style="font-size: 18px; margin-left: 30px" th:text="#{search.tutorial}">Enter music name <u>OR</u> artist name to find music</h1>-->
+<!--</div>-->
+
+<!--<div th:text="${#authentication.getName()}"></div>-->
+
+<form id="findMusic" style="margin-left: 40px; margin-top: 25px"
+      th:attr="onsubmit=|sendDataForm(${#authorization.expression('isAuthenticated()')})|"
+      th:action="@{/menu/search}" th:method="POST">
+
+  <div class="join">
     <div>
-      <input id="music" style="border: 1px solid grey" type="text" class="input input-bordered join-item" th:placeholder="#{search.placeholder.music}"/>
-      <input id="singer" style="border: 1px solid grey" type="text" class="input input-bordered join-item" th:placeholder="#{search.placeholder.artist}"/>
+      <div>
+        <input id="music" name="music" class="search-input input input-bordered join-item" th:value="${songVal}" th:placeholder="#{search.placeholder.music}"/>
+      </div>
+    </div>
+    <div>
+      <div>
+        <input id="artist" name="artist" class="search-input input input-bordered join-item" th:value="${artistVal}" th:placeholder="#{search.placeholder.artist}"/>
+      </div>
+    </div>
+    <div class="indicator">
+      <button type="submit" name="findSubmit" class="btn-search btn join-item bg-neutral" th:text="#{search.button.search}">Search</button>
     </div>
   </div>
-
-  <div>
-    <button style="width: 85px" type="submit" class="btn-search join-item btn" th:text="#{search.button.search}">Search</button>
-  </div>
-</div>
+</form>
 
 
 
-<div class="overflow-x-auto">
-  <table class="table table-zebra">
-    <!-- head -->
+
+<div class="overflow-x-auto" style="margin-top: 30px">
+  <table class="text-white table table-zebra">
     <thead>
     <tr>
       <!--            <th>-->
@@ -63,6 +63,7 @@
       <th th:text="#{search.table.name}">Name</th>
       <th th:text="#{search.table.music}">Music</th>
       <th th:text="#{search.table.text}">Text</th>
+      <th th:text="#{search.table.limitation}">Lim</th>
       <th></th>
     </tr>
     </thead>
@@ -77,11 +78,27 @@
           </div>
           <div>
             <div class="font-bold">
-              <a class="link link-hover" style="font-size: 18px" th:href="@{/show/song/{id}(id=${song.getId()})}" th:text="${song.getName()}">Unknown</a>
+              <a class="link link-hover" style="font-size: 17px; display: inline-block"
+                 th:attr="onclick=|sendData('@{/show/song/{id}(id=${song.getId()})}', ${#authorization.expression('isAuthenticated()')})|"
+                 th:text="${song.getName()}">Unknown</a>
+
+              <div th:if="${song.hasFeats()}" style="display: inline-block">
+                <div style="display: inline-block">
+                  <a th:text="' ft.'"></a>
+                </div>
+                <div th:each="subs : ${song.getSubArtists()}" style="display: inline-block">
+                  <a text="' '" style="display: inline-block"></a>
+                  <a class="link link-hover" style="display: inline-block"
+                     th:text="${subs.getPseudonym()}"
+                     th:attr="onclick=|sendData('@{/show/artist/{id}(id=${subs.getId()})}', ${#authorization.expression('isAuthenticated()')})|"></a>
+                </div>
+              </div>
+
             </div>
             <div th:each="artist : ${song.getArtists()}" style="display: inline-block">
-              <div style="font-size: 14px" class="text-sm opacity-50">
-                <a class="link link-hover" th:text="${artist.getPseudonym()}" th:href="@{/show/artist/{id}(id=${artist.getId()})}">
+              <div style="font-size: 14px;" class="opacity-50">
+                <a class="text-white link link-hover" th:text="${artist.getPseudonym()}"
+                   th:attr="onclick=|sendData('@{/show/artist/{id}(id=${artist.getId()})}', ${#authorization.expression('isAuthenticated()')})|">
                   Unknown
                 </a>
               </div>
@@ -95,55 +112,40 @@
       </td>
 
       <td>
-        <div class="collapse bg-base-200" style="width: 350px">
+        <div class="collapse bg-base-200" style="width: 350px;">
           <input type="checkbox" class="peer" />
-          <div class="collapse-title bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content" th:text="#{search.table.text}">
+          <div class="collapse-title bg-primary text-primary-content " th:text="#{search.table.text}">
+<!--            peer-checked:bg-secondary peer-checked:text-secondary-content-->
             Text
           </div>
-          <div class="collapse-content bg-primary text-primary-content peer-checked:bg-secondary peer-checked:text-secondary-content">
+          <div class="collapse-content collapse-max-height bg-primary text-primary-content">
+<!--            peer-checked:bg-secondary peer-checked:text-secondary-content-->
             <pre th:text="${song.getText()}"></pre>
           </div>
         </div>
       </td>
 
       <td>
-        <button class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>
-        <button class="btn btn-outline btn-warning" th:text="#{search.button.delete}">Warning</button>
-      </td> <!-- create button to add music in the library -->
-    </tr>
-<!--    &lt;!&ndash; row 1 &ndash;&gt;-->
-<!--    <tr>-->
-<!--      <td>-->
-<!--        <div class="flex items-center space-x-3">-->
-<!--          <div class="avatar">-->
-<!--            <div class="mask mask-squircle w-12 h-12">-->
-<!--              <img th:src="@{/source/foto/1}" alt="Avatar Tailwind CSS Component" />-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div>-->
-<!--            <div class="font-bold">Hart Hagerty</div>-->
-<!--            <div class="text-sm opacity-50">United States</div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </td>-->
-<!--      <td>-->
-<!--        Zemlak, Daniel and Leannon-->
-<!--        <br/>-->
-<!--        <span class="badge badge-ghost badge-sm">Desktop Support Technician</span>-->
-<!--      </td>-->
-<!--      <td>Purple</td>-->
-<!--      <th>-->
-<!--        <button class="btn btn-ghost btn-xs">details</button>-->
-<!--      </th>-->
-<!--    </tr>-->
+        <a th:text="${song.getLimValue()}"></a>
+      </td>
 
-    <!-- foot -->
+      <td>
+        <button th:if="!${song.isAdd()}" th:attr="onclick=|addSong(this, '#{search.button.add}', '#{search.button.delete}',
+                ${song.getId()}, ${#authorization.expression('isAuthenticated()')}, ${limval}, ${song.getLimValue()})|"
+                class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>
+        <button th:if="${song.isAdd()}" th:attr="onclick=|addSong(this, '#{search.button.add}', '#{search.button.delete}',
+                ${song.getId()}, ${#authorization.expression('isAuthenticated()')}, ${limval}, ${song.getLimValue()})|"
+                class="btn btn-outline btn-error" th:text="#{search.button.delete}">Error</button>
+      </td>
+
+    </tr>
     <tfoot>
     <tr>
       <!--            <th></th>-->
       <th th:text="#{search.table.name}">Name</th>
       <th th:text="#{search.table.music}">Music</th>
       <th th:text="#{search.table.text}">Text</th>
+      <th th:text="#{search.table.limitation}"></th>
       <th></th>
     </tr>
     </tfoot>
@@ -152,49 +154,27 @@
 </div>
 
 
-<div th:insert="~{fragments/footer :: footer}"></div>
+
+<div id="sign-authorization" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.authentication.add.music}">To manage your library
+    (add music and albums)
+    you should AUTHENTICATE
+    before
+  </pre>
+</div>
 
 
+<!--work through model instead of http -->
+<div id="sign-invalid-music" class="sign-center">
+  <pre class="sign-center-text" th:text="#{error.limitation.add.music}"> Music not valid
+    for your limitation
+  </pre>
+</div>
 
 
+<div class="before-footer"></div>
+<div class="footer-ended" th:insert="~{fragments/footer :: footer}"></div>
 
-<!--<div class="overflow-x-auto">-->
-<!--<form th:method="DELETE" th:action="@{/speaker/login}">-->
-<!--  <input type="submit" value="logout"/>-->
-<!--</form>-->
-
-
-<!--&lt;!&ndash;<a href="login">log OUT</a>&ndash;&gt;-->
-<!--<form th:method="GET" th:action="@{/menu}">-->
-<!--  <input type="submit" value="back"/>-->
-<!--</form>-->
-
-
-
-<!--<form method="post" action="search">-->
-<!--  <br>-->
-<!--  <label for="singer">Singer</label>-->
-<!--  <input name="singer" type="text" id="singer"/>-->
-
-<!--  <br>-->
-
-<!--  <label for="song">Song &nbsp</label>-->
-<!--  <input name="song" type="text" id="song"/>-->
-
-<!--  <br>-->
-
-<!--  <p>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="submit" value="search"/></p>-->
-<!--</form>-->
-
-
-<!--<div th:each="song : ${music}">-->
-<!--  <img th:src="@{/source/foto/1}" alt="HTML5 Icon" style="width: 5%; height: 5%">-->
-<!--  <a th:text="${song.getName()}"></a>-->
-<!--  <td>-->
-<!--    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>-->
-<!--  </td>-->
-<!--</div>-->
-<!--</div>-->
 
 </body>
 </html>

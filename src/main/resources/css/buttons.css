@@ -1,3 +1,7 @@
+.search-input {
+    border: 1px solid grey;
+}
+
 .btn-search {
     border: 1px solid grey;
     padding: 10px;
@@ -8,4 +12,19 @@
     border: 1px solid darkred;
     color: white;
     cursor: pointer
+}
+
+
+.collapse-max-height {
+    max-height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.collapse-big {
+    max-height: 450px;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: auto
 }

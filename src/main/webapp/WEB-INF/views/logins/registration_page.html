@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.3/dist/full.css" rel="stylesheet" type="text/css" />
+  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="" th:href="@{/source/resources/css/buttons.css}" rel="stylesheet" type="text/css">
+  <link href="" th:href="@{/source/resources/css/fragments.css}" rel="stylesheet" type="text/css">
+  <script type="text/javascript" th:src="@{/source/resources/js/scripts.js}"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+<body>
+
+<div th:insert="~{fragments/header :: header}"></div>
+
+
+
+<div class="hero min-h-screen">
+  <div class="hero-content flex-col lg:flex-row-reverse" style="width: 1000px">
+    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-300">
+      <form class="card-body" th:action="@{/speaker/registration}" th:method="POST" th:object="${user}">
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text" th:text="#{registration.username.label}">Username</span>
+          </label>
+          <input id="userName" th:field="*{username}" type="text" th:placeholder="#{registration.username.placeholder}" class="input input-bordered bg-base-300" required />
+          <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></div>
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text" th:text="#{registration.firstname.label}">First name</span>
+          </label>
+          <input id="firstName" th:field="*{firstName}" type="text" th:placeholder="#{registration.firstname.placeholder}" class="input input-bordered bg-base-300" required />
+        </div>
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text" th:text="#{registration.secondname.label}">Second name</span>
+          </label>
+          <input id="secondName" th:field="*{secondName}" type="text" th:placeholder="#{registration.secondname.placeholder}" class="input input-bordered bg-base-300" required />
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text" th:text="#{registration.date.label}">Birthday</span>
+          </label>
+          <input id="date" name="date" type="text" th:placeholder="#{registration.date.placeholder}" class="input input-bordered bg-base-300" />
+          <div th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" style="color: red"></div>
+        </div>
+
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text" th:text="#{registration.password.label}">Password</span>
+          </label>
+          <input id="password" th:field="*{password}" type="password" th:placeholder="#{registration.password.placeholder}" class="input input-bordered bg-base-300" required />
+          <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color: red"></div>
+        </div>
+        <div class="form-control mt-6">
+          <button type="submit" class="btn btn-primary" th:text="#{registration.button.register}">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
