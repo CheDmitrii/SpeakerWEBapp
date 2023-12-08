@@ -223,11 +223,19 @@ input::placeholder {
 }
 
 /*CSS class to add and delete album and songs on single album page (album.html)*/
+/*THEY ARE USED IN PROJECT*/
+.album-btn {}
 
-.album-btn {
+.song-btn {}
 
+audio {
+    transition: transform .3s;
+    /*overflow-x: scroll;*/
 }
 
-.song-btn {
+/*audio::-webkit-scrollbar{*/
 
-}
+/*}*/
+/*audio:playing {*/
+/*    transform: scale(1.2);*/
+/*}*/

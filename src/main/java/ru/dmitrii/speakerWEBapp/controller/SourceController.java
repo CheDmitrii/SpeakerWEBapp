@@ -8,8 +8,7 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.dmitrii.speakerWEBapp.DAO.MusicDAO;
-import ru.dmitrii.speakerWEBapp.models.User;
+import ru.dmitrii.speakerWEBapp.service.MusicService;
 
 import java.io.*;
 
@@ -17,19 +16,17 @@ import java.io.*;
 @Controller
 @RequestMapping("/source")
 public class SourceController {
-    private User user;
-    private MusicDAO musicDAO;
+    private final MusicService musicService;
 
     @Autowired
-    public SourceController(User user, MusicDAO musicDAO) {
-        this.user = user;
-        this.musicDAO = musicDAO;
+    public SourceController(MusicService musicService) {
+        this.musicService = musicService;
     }
 
 
     @GetMapping("/music/{id}")
     public HttpEntity<byte[]> playAudio(@PathVariable("id") int id) throws FileNotFoundException {
-        String path = musicDAO.getPathSong(id);
+        String path = musicService.getPathSong(id);
         long len = new File(path).length();
         InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(path));
         HttpHeaders headers = new HttpHeaders();
@@ -40,7 +37,7 @@ public class SourceController {
 
     @GetMapping("/foto/{id}")
     public HttpEntity<byte[]> showPicture(@PathVariable("id") int id) throws IOException {
-        String path = musicDAO.getAlbumPicturePath(id);
+        String path = musicService.getAlbumPicture(id);
         long length = new File(path).length();
         InputStreamResource inputStreamResource = new InputStreamResource(new FileInputStream(path));
         HttpHeaders headers = new HttpHeaders();
@@ -59,7 +56,6 @@ public class SourceController {
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
         return new ResponseEntity(inputStreamResource, headers, HttpStatus.OK);
     }
-
 
     @GetMapping("/gif/{id}")
     public ResponseEntity<byte[]> getGif(@PathVariable("id") int id) throws IOException {
@@ -81,7 +77,6 @@ public class SourceController {
 //        headers.setContentType(MediaType.IMAGE_GIF);
 //        return new ResponseEntity<>(bytes, headers, HttpStatus.CREATED);
     }
-
 
     @GetMapping("/resources/css/{code}.css")
     public ResponseEntity<String> styles(@PathVariable("code") String code) throws IOException {

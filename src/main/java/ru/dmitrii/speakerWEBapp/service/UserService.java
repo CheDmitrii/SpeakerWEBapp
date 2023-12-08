@@ -81,9 +81,6 @@ public class UserService {
         return userDAO.getAllSubscribes(id);
     }
 
-
-
-    // TODO: implement follow functions in UserDao
     public void updateLibrary(MessageJSON messageJSON, int id) {
         if (messageJSON.songsADD() != null) {addMusic(messageJSON.songsADD(), id);}
         if (messageJSON.songsDELETE() != null) {deleteMusic(messageJSON.songsDELETE(), id);}

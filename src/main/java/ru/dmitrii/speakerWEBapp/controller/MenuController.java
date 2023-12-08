@@ -1,7 +1,6 @@
 package ru.dmitrii.speakerWEBapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +12,14 @@ import ru.dmitrii.speakerWEBapp.service.UserService;
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
-    private final MessageSource messageSource;
     private final MusicService musicService;
     private final UserService userService;
     @Autowired
-    public MenuController(MessageSource messageSource, MusicService musicService, UserService userService) {
-        this.messageSource = messageSource;
+    public MenuController(MusicService musicService, UserService userService) {
         this.musicService = musicService;
         this.userService = userService;
     }
+
     @GetMapping("")
     public String getMainMenu() {
         return "menus/mainMenu";

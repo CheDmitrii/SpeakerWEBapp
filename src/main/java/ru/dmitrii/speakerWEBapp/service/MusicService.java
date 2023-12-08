@@ -21,6 +21,15 @@ public class MusicService {
         this.musicDAO = musicDAO;
     }
 
+
+    public String getPathSong(int id) {
+        return musicDAO.getPathSong(id);
+    }
+
+    public String getAlbumPicture(int id) {
+        return musicDAO.getAlbumPicturePath(id);
+    }
+
     public List<Song> getAllSongs(Authentication authentication) {
         if (authentication == null) {
             return musicDAO.getAllSongsNoAuth();

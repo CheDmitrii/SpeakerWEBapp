@@ -17,15 +17,6 @@
 <div th:insert="~{fragments/header :: header}"></div>
 
 
-<!--th:attr="onclick=|addSong(this, '#{search.button.add}', '#{search.button.delete}')|"-->
-<!--<button id="butt" onclick="sendData('myURL')" class="btn btn-outline btn-success" th:text="#{search.button.add}">Success</button>-->
-
-<!--<div class="text-white">-->
-<!--  <br>-->
-<!--  <h1 style="font-size: 18px; margin-left: 30px" th:text="#{search.tutorial}">Enter music name <u>OR</u> artist name to find music</h1>-->
-<!--</div>-->
-
-<!--<div th:text="${#authentication.getName()}"></div>-->
 
 <form id="findMusic" style="margin-left: 40px; margin-top: 25px"
       th:attr="onsubmit=|sendDataForm(${#authorization.expression('isAuthenticated()')})|"
@@ -55,11 +46,6 @@
   <table class="text-white table table-zebra">
     <thead>
     <tr>
-      <!--            <th>-->
-      <!--                <label>-->
-      <!--                    <input type="checkbox" class="checkbox" />-->
-      <!--                </label>-->
-      <!--            </th>-->
       <th th:text="#{search.table.name}">Name</th>
       <th th:text="#{search.table.music}">Music</th>
       <th th:text="#{search.table.text}">Text</th>
@@ -108,7 +94,9 @@
       </td>
 
       <td>
-        <audio controls class="bg-base-100" style="width: 390px; height: 30px" th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>
+        <audio controls class="bg-base-100" style="width: 390px; height: 30px"
+               th:attr="onplay=|audioSinglePlay(this)|,onpause=|stopScale(this)|"
+               th:src="@{/source/music/{id}(id=${song.getId()})}" type="audio/mpeg"></audio>
       </td>
 
       <td>

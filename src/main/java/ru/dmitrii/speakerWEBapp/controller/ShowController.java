@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.dmitrii.speakerWEBapp.DAO.MusicDAO;
 import ru.dmitrii.speakerWEBapp.service.MusicService;
 import ru.dmitrii.speakerWEBapp.service.UserService;
 
@@ -16,13 +15,11 @@ import ru.dmitrii.speakerWEBapp.service.UserService;
 @RequestMapping("/show")
 public class ShowController {
 
-    private MusicDAO musicDAO;
     private final MusicService musicService;
     private final UserService userService;
 
     @Autowired
-    public ShowController(MusicDAO musicDAO, MusicService musicService, UserService userService) {
-        this.musicDAO = musicDAO;
+    public ShowController(MusicService musicService, UserService userService) {
         this.musicService = musicService;
         this.userService = userService;
     }

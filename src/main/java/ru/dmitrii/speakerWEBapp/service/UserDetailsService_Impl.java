@@ -17,8 +17,6 @@ import java.util.Optional;
 @Service
 public class UserDetailsService_Impl implements UserDetailsService {
     private final UserDAO userDAO;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(8);
-
     @Autowired
     public UserDetailsService_Impl(UserDAO userDAO) {
         this.userDAO = userDAO;
@@ -33,14 +31,7 @@ public class UserDetailsService_Impl implements UserDetailsService {
             throw  new UsernameNotFoundException("User doesn't exist");
         }
 
-        if (user.isEmpty()) {
-            throw new UsernameNotFoundException("User doesn't exist");
-        }
-
-
-//        System.out.println("RealPassword: " + user.get().getPassword());
-//        System.out.println("Password encoder: " + passwordEncoder.encode(user.get().getPassword()));
-//        System.out.println("Password matcher: " + passwordEncoder.);
+        if (user.isEmpty()) {throw new UsernameNotFoundException("User doesn't exist");}
 
         return new UserDetails_Impl(user.get());
     }

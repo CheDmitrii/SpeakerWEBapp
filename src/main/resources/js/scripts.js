@@ -25,7 +25,6 @@ function addSong(elem, addText, deleteText, id, isAuthorise, userLim, songLim) {
     }
 
     if (userLim != -1 && userLim < songLim) {
-        // console.log("into if that set timeout")
         var elemValid = document.getElementById("sign-invalid-music");
         elemValid.style.display = "block";
         setTimeout(function () {
@@ -105,7 +104,6 @@ function addAlbum(elem, addText, deleteText, id, isAuthorise, userLim, albumLim)
 
     name = elem.className;
     let index;
-    // console.log("count of buttons = " + songsBtns.length);
     if (name == "btn btn-outline btn-error") {
         index = addAlbumArray.findIndex(element => element == id);
         if (index > -1) {addAlbumArray.splice(index, 1);}
@@ -149,9 +147,7 @@ function addSingleAlbum(elem, addText, deleteText, id, isAuthorise, userLim, alb
 
     name = elem.className;
     songsBtns = document.getElementsByClassName('song-btn');
-    // console.log("count of buttons = " + songsBtns.length);
     if (name == "album-btn btn btn-outline btn-error") {
-
         addSongArray = [];
         deleteSongArray = [];
         addAlbumArray = [];
@@ -379,7 +375,6 @@ function sendDataLibraryForm() {
         "albumsADD": addAlbumArray,
         "albumsDELETE": deleteAlbumArray,
     });
-    // console.log(json);
     fetch('/speaker/update/music', {
             method: 'POST',
             headers: {
@@ -402,7 +397,7 @@ function sendDataLibraryForm() {
 
 
 
-
+// doesn't work
 function sendDataLogoutForm(authenticate, username) {
     if (!authenticate || (addSongArray.length === 0 && deleteSongArray.length === 0 &&
         addAlbumArray.length === 0 && deleteAlbumArray.length === 0)) {
@@ -439,6 +434,35 @@ function sendDataLogoutForm(authenticate, username) {
 };
 
 
+
+
+// var audi = document.querySelector('audio');
+// var prog = audi.p;
+// prog?.addEventListener('click', calculateProgress);
+//
+// function calculateProgress(event) {
+//     console.log("here");
+//     var percent = event.offsetX / this.offsetWidth;
+//     audi.currentTime = audi.duration * percent;
+//     prog.value = percent / 100;
+// }
+
+
+function audioSinglePlay(element) {
+    let songs = document.getElementsByTagName('audio');
+    for (let i = 0; i < songs.length; ++i) {
+        if (songs[i] !== element) {
+            songs[i].pause();
+            songs[i].currentTime = 0;
+            songs[i].style.transform = 'scale(' + 1.0 + ')';
+        }
+    }
+    element.style.transform = 'scale(' + 1.1 + ')';
+}
+
+function stopScale(element) {
+    element.style.transform = 'scale(' + 1.0 + ')';
+}
 
 
 // // doesn't work

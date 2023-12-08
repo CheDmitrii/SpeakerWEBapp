@@ -25,18 +25,21 @@
 </div>
 
 <div class="text-white center-div" style="margin-top: 30px">
-    <a class="link link-hover" style="font-size: 30px; display: inline-block" th:text="${song.getName()}"
-       th:attr="onclick=|sendData('@{/show/song/{id}(id=${song.getId()})}', ${#authorization.expression('isAuthenticated()')})|"></a>
-    <div th:if="${song.hasFeats()}" style="font-size: 28px;display: inline-block">
-        <a th:text="' '" style="font-size: 23px;display: inline-block"></a>
-        <a th:text="'ft.'" style="display: inline-block"></a>
-        <div th:each="subs : ${song.getSubArtists()}" style="display: inline-block">
-            <a th:text="' '" style="font-size: 28px;display: inline-block"></a>
-            <a class="link link-hover" th:text="${subs.getPseudonym()}"
-               th:attr="onclick=|sendData('@{/show/artist/{id}(id=${subs.getId()})}',
+    <div style="display: inline-block">
+        <a class="link link-hover" style="font-size: 30px; display: inline-block" th:text="${song.getName()}"
+           th:attr="onclick=|sendData('@{/show/song/{id}(id=${song.getId()})}', ${#authorization.expression('isAuthenticated()')})|"></a>
+        <div th:if="${song.hasFeats()}" style="font-size: 28px;display: inline-block">
+            <a th:text="' '" style="font-size: 23px;display: inline-block"></a>
+            <a th:text="'ft.'" style="display: inline-block"></a>
+            <div th:each="subs : ${song.getSubArtists()}" style="display: inline-block">
+                <a th:text="' '" style="font-size: 28px;display: inline-block"></a>
+                <a class="link link-hover" th:text="${subs.getPseudonym()}"
+                   th:attr="onclick=|sendData('@{/show/artist/{id}(id=${subs.getId()})}',
                ${#authorization.expression('isAuthenticated()')})|"></a>
+            </div>
         </div>
     </div>
+
     <div style="display: inline-block; margin-left: 30px">
         <button th:if="${song.isAdd()}" th:attr="onclick=|addSong(this, '#{song.button.add}', '#{song.button.delete}',
                 ${song.getId()}, ${#authorization.expression('isAuthenticated()')}, ${limval}, ${song.getLimValue()})|"
@@ -60,7 +63,9 @@
 <br>
 
 <div>
-    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}" style="margin: 0 auto; display: block; width: 500px; height: 53px" type="audio/mpeg"></audio>
+    <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}"
+           th:attr="onplay=|audioSinglePlay(this)|,onpause=|stopScale(this)|"
+           style="margin: 0 auto; display: block; width: 500px; height: 53px" type="audio/mpeg"></audio>
 </div>
 
 
