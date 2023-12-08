@@ -448,7 +448,16 @@ function sendDataLogoutForm(authenticate, username) {
 // }
 
 
-function audioSinglePlay(element) {
+function audioSinglePlay(element, limval, songval) {
+    if (limval !== -1 && limval < songval) {
+        element.pause();
+        var elemValid = document.getElementById("sign-invalid-music");
+        elemValid.style.display = "block";
+        setTimeout(function () {
+            elemValid.style.display = "none";
+        }, 3000);
+        return;
+    }
     let songs = document.getElementsByTagName('audio');
     for (let i = 0; i < songs.length; ++i) {
         if (songs[i] !== element) {

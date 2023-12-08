@@ -64,7 +64,7 @@
 
 <div>
     <audio controls th:src="@{/source/music/{id}(id=${song.getId()})}"
-           th:attr="onplay=|audioSinglePlay(this)|,onpause=|stopScale(this)|"
+           th:attr="onplay=|audioSinglePlay(this, ${limval}, ${song.getLimValue()})|,onpause=|stopScale(this)|"
            style="margin: 0 auto; display: block; width: 500px; height: 53px" type="audio/mpeg"></audio>
 </div>
 
